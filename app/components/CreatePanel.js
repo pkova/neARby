@@ -16,11 +16,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions/index';
 import uploadImage from '../lib/S3Upload';
-<<<<<<< 56a3d8e0925cccb3a18c59da23c00b33e4fd199d
 import Promise from "bluebird";
-=======
-// import Promise from "bluebird";
->>>>>>> Prepare for rebase
+
 
 //TODOs:
 //add color selector for geometry and a color state, fix timestamp on event request obj

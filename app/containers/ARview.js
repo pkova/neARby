@@ -86,6 +86,15 @@ class ARcomponent extends Component {
 
         this.setState({currentHeading: data.heading});
         callback(data.heading);
+
+        // let smoothingValue = 300;
+        // let previousHeading = this.state.currentHeading;
+        // let currentHeading = data.heading;
+
+        // let newHeading = previousHeading + (currentHeading - previousHeading) / smoothingValue;
+        // this.setState({currentHeading: currentHeading});
+       
+        // callback(newHeading);
       }
     );
   }
