@@ -101,8 +101,28 @@ class SmallDetailView extends Component {
               <Image style={styles.detailPreview_closeBtn} source={require('../assets/close.png')}></Image>
             </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       );
+    }
+    return (
+      <View style={{paddingLeft: 10}}>
+        <Image style={styles.detailPreview_image} source={{uri: 'http://kohlerglobalprojects.com/assets/Uploads/DetailThumb/Hotel-Indigo-Thumbnail.jpg'}}></Image>
+      </View>
+    );
+  }
+
+
+  render() {
+    let button;
+    // let buttons = (
+    //     <View style={styles.detailPreview_iconColumn}>
+    //       <View style={styles.detailPreview_Btn}>
+    //         <TouchableOpacity onPress={this.props.closePanel}>
+    //           <Image style={styles.detailPreview_closeBtn} source={require('../assets/close.png')}></Image>
+    //         </TouchableOpacity>
+    //       </View>
+    //     </View>
+    //   );
 
     let upvoteIcon = (
       <TouchableOpacity style={{paddingLeft: 5, paddingRight: 5}} onPress={() => {this.upvote()}}>
@@ -141,7 +161,7 @@ class SmallDetailView extends Component {
       );
     }
 
-    if (this.props.place.type && this.props.place.type === 'userPlace' || this.props.place.type === 'userEvent') {
+    // if (this.props.place.type && this.props.place.type === 'userPlace' || this.props.place.type === 'userEvent') {
       buttons = (
         <View style={styles.detailPreview_iconColumn}>
           <View style={styles.detailPreview_Btn}>
@@ -153,7 +173,7 @@ class SmallDetailView extends Component {
           <View style={{flex: 1, flexDirection: 'row'}}><Text>{this.state.downvotes}</Text>{downvoteIcon}</View>
         </View>
       );
-    }
+    // }
 
     return (
       <View style={styles.detailPreview}>
