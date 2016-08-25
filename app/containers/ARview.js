@@ -237,7 +237,10 @@ class ARcomponent extends Component {
         this.props.action.placeQuery(this.props.placeQuery)
         .then(this.props.action.userPlacesQuery(this.props.placeQuery));
       } else if (this.props.searchMode === 'events') {
-        this.props.action.eventQuery(this.props.eventQuery);
+        var clone = Object.assign({}, this.props.eventQuery);
+        clone.latitude = 37.78379517610909;
+        clone.latitude = -122.4091795553662;
+        this.props.action.eventQuery(clone);
       }
     };
 

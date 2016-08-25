@@ -287,6 +287,18 @@ const styles = StyleSheet.create({
     marginRight: 4,
     marginLeft: 4
   },
+    scrollView: {
+    height: 500,
+  },
+  scrollViewDetails: {
+    height: 250,
+  },
+    detailsHeading: {
+    fontSize: 18,
+    fontFamily: 'AvenirNext-Medium',
+    textAlign: 'center',
+    padding: 5
+  },
 });
 
 export default styles;
