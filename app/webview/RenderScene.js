@@ -32,6 +32,51 @@ const RenderScene =
           });
         };
 
+        var sizeFont = function(context, text, maxWidth) {
+          var width = context.measureText(text).width;
+          var fontSize = parseInt(context.font.split(' ')[0], 10);
+          while (width > maxWidth - 25) {
+            fontSize--;
+            var oldFont = context.font.split(' ');
+            oldFont[0] = fontSize + 'px';
+            context.font = oldFont.join(' ');
+            width = context.measureText(text).width;
+          }
+        };
+
+        window.createImage = function(image) {
+          var canvas = document.createElement('canvas');
+          canvas.width = 300;
+          canvas.height = 300;
+          var ctx = canvas.getContext('2d');
+          var img = new Image();
+          img.src = image;
+          img.onload = function() {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            var texture = new THREE.Texture(canvas);
+            texture.needsUpdate = true;
+
+            var geo = new THREE.PlaneGeometry(1, 1);
+            var mat = new THREE.MeshBasicMaterial({transparent: true, opacity: 0.75, map: texture});
+            var cube = new THREE.Mesh(geo, mat);
+            cube.position.set(Math.random() * 2, 0, Math.random() * 2);
+            cube.position.normalize();
+            cube.position.multiplyScalar(3);
+            cube.lookAt(camera.position);
+            // cube.userData.index = key;
+            cube.userData.direction = [1, -1][Math.floor(Math.random() * 2)];
+            // cube.visible = false;
+            scene.add(cube);
+
+            var bbox = new THREE.BoundingBoxHelper(cube, 0xff0000);
+            while (checkCollision(bbox)) {
+              cube.translateY(cube.userData.direction * 0.3);
+            }
+            cube.matrixAutoUpdate = false;
+            window.divs.push(cube);
+          };
+        }
+
         window.createPlace = function(lat, long, name, distance, key) {
 
           var bitmap = document.createElement('canvas');
@@ -41,8 +86,15 @@ const RenderScene =
           g.font = 'Bold 30px Helvetica, sans-serif';
 
           g.fillStyle = '#007F7F';
-          g.fillRect(0, 0, 300, 150);
+          g.fillRect(0, 0, bitmap.width, bitmap.height);
           g.fillStyle = 'white';
+          sizeFont(g, name, bitmap.width)
+
+          g.shadowColor = 'rgba(0,255,255,0.95)';
+          g.shadowOffsetX = 0;
+          g.shadowOffsetY = 0;
+          g.shadowBlur = 6;
+
           g.textAlign = 'center';
           g.fillText(name, 150, 75);
           g.strokeStyle = 'white';
@@ -56,7 +108,7 @@ const RenderScene =
           var texture = new THREE.Texture(bitmap);
           texture.needsUpdate = true;
 
-          var geo = new THREE.PlaneGeometry(0.5, 0.5);
+          var geo = new THREE.PlaneGeometry(1, 0.5);
           var mat = new THREE.MeshBasicMaterial({transparent: true, opacity: 0.75, map: texture});
           var cube = new THREE.Mesh(geo, mat);
           cube.position.set(long, 0, -1 * lat);
@@ -64,13 +116,15 @@ const RenderScene =
           cube.position.multiplyScalar(3);
           cube.lookAt(camera.position);
           cube.userData.index = key;
+          cube.userData.direction = [1, -1][Math.floor(Math.random() * 2)];
           // cube.visible = false;
           scene.add(cube);
 
           var bbox = new THREE.BoundingBoxHelper(cube, 0xff0000);
           while (checkCollision(bbox)) {
-            cube.translateY(0.3);
+            cube.translateY(cube.userData.direction * 0.3);
           }
+          cube.matrixAutoUpdate = false;
           window.divs.push(cube);
         };
 

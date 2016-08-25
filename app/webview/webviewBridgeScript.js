@@ -80,12 +80,19 @@ export const injectScript = `
               window.createPlace(place.lat, place.lon, place.name, place.distance, key);
             }
           });
+          // window.createImage('http://www.jqueryscript.net/images/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg');
 
         } else if (message.type === 'currentHeading') {
           heading = message.heading;
           headingUpdate = true;
           // WebViewBridge.send(JSON.stringify("in WebViewBridge, got currentHeading"));
 
+        } else if (message.type === 'images') {
+          window.clearScene();
+          var images = message.images;
+          images.forEach(function(image) {
+            window.createImage(image);
+          })
         }
       };
 
