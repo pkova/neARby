@@ -76,19 +76,19 @@ class SmallDetailView extends Component {
       images = this.props.photos;
     }
 
-      return (
-        <ScrollView horizontal={true} style={{flexDirection: 'row'}}>
-          <View style={{flexDirection: 'row'}}>
-            {images.slice(0,10).map(function(item, key) {
-              return (
-                <TouchableOpacity key={key} onPress={() => {this.enterARImageMode()}}>
-                    <Image source={{uri: item}} style={styles.images}/>
-                </TouchableOpacity>);
-              }.bind(this))
-            }
-          </View>
-        </ScrollView>
-      );
+    return (
+      <ScrollView horizontal={true} style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row'}}>
+          {images.slice(0,10).map(function(item, key) {
+            return (
+              <TouchableOpacity key={key} onPress={() => {this.enterARImageMode()}}>
+                  <Image source={{uri: item}} style={styles.images}/>
+              </TouchableOpacity>);
+            }.bind(this))
+          }
+        </View>
+      </ScrollView>
+    );
   }
 
 
