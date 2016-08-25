@@ -77,12 +77,13 @@ const RenderScene =
           cube.position.multiplyScalar(3);
           cube.lookAt(camera.position);
           cube.userData.index = key;
+          cube.userData.direction = [1, -1][Math.floor(Math.random() * 2)];
           // cube.visible = false;
           scene.add(cube);
 
           var bbox = new THREE.BoundingBoxHelper(cube, 0xff0000);
           while (checkCollision(bbox)) {
-            cube.translateY(0.3);
+            cube.translateY(cube.userData.direction * 0.3);
           }
           cube.matrixAutoUpdate = false;
           window.divs.push(cube);
