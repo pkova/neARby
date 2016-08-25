@@ -96,10 +96,10 @@ const RenderScene =
             g.fillStyle = '#007F7F';
             textColor = 'white';
           } else if (type === 'event') {
+            window.alert('event');
             g.fillStyle = '#ccff99';
             textColor = '#ff99cc';
           } else if (type === 'userPlace') {
-            // window.alert('userPlace');
             g.fillStyle = '#ff0000';
             textColor = '#00ff00';
             // var geo = new THREE.TorusGeometry( 1, .25, 10, 25 ); 

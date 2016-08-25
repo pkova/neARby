@@ -289,7 +289,6 @@ export const LOADING_LOCATION = 'LOADING_LOCATION';
 
 export const updateInitLocation = (location) => {
   // console.log('updateInitLocation');
-  console.log('location',location);
   return {
     type: INIT_POSITION_UPDATE,
     payload: {

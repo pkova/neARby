@@ -52,10 +52,8 @@ class ARcomponent extends Component {
     if (!nextProps.insideARImageMode && this.activateARImageMode && nextProps.ARImageMode) {
       if (Array.isArray(nextProps.places[nextProps.focalPlace].img)) {
         this.activateARImageMode(nextProps.places[nextProps.focalPlace].img);
-        console.log('nextProps.places[nextProps.focalPlace].img');
       } else {
         this.activateARImageMode(nextProps.photos);
-        console.log('nextProps.photos');
       }
       this.props.action.insideARImageMode(true);
     }
@@ -110,11 +108,6 @@ class ARcomponent extends Component {
       };
       this.props.action.fetchPlaces(positionObj)
       .then(() => {this.props.action.userPlacesQuery(positionObj)})
-      // .then((response) => {
-      //   if (response.payload.length === 0) {
-      //     setTimeout(() => {this.props.action.fetchPlaces(positionObj)}, 5000);
-      //   }
-      // })
 
       .catch((err) => {
         //implement error message
@@ -235,12 +228,15 @@ class ARcomponent extends Component {
 
       //if there are searches for events for places, keep fetching those searches
       if (this.props.searchMode === 'none') {
+        console.log('rangereached fetch');
         this.props.action.fetchPlaces(positionObj)
         .then(this.props.action.userPlacesQuery(positionObj));
       } else if (this.props.searchMode === 'places') {
+        console.log('rangereached places fetch');
         this.props.action.placeQuery(this.props.placeQuery)
         .then(this.props.action.userPlacesQuery(this.props.placeQuery));
       } else if (this.props.searchMode === 'events') {
+        console.log('rangereached places fetch');
         var clone = Object.assign({}, this.props.eventQuery);
         clone.latitude = this.props.currentPosition.latitude;
         clone.longitude = this.props.currentPosition.longitude;

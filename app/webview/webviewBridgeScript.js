@@ -50,20 +50,11 @@ export const injectScript = `
         } else if (message.type === 'places') {
           // window.alert('places');
           var places = message.places;
-          // var places = [
-          //   {name: 'nice place', lat: 3, lon: 4, distance: 100},
-          //   {name: 'cool place', lat: 200, lon: 102, distance: 100},
-          //   {name: 'excellent place nice', lat: 122, lon: 23, distance: 100},
-          //   {name: 'best place ever', lat: 131, lon: 200, distance: 100},
-          //   {name: 'best place ever', lat: 131, lon: 200, distance: 100},
-          // ];
-
-          WebViewBridge.send(JSON.stringify("in WebViewBridge, got places"));
+          loading = false;
           window.clearScene();
           window.divs = [];
 
           places.forEach(function(place, key) {
-            loading = false;
             window.createPlace(place.lat, place.lon, place.name, place.distance, key, place.type);
             // if (place.type && (place.type === 'userPlace')) {
             //   // var torus = new THREE.TorusGeometry( 2, .5, 10, 25 );
@@ -75,7 +66,6 @@ export const injectScript = `
             //   window.createPlace(place.lat, place.lon, place.name, place.distance, key);
             // }
           });
-          // window.createImage('http://www.jqueryscript.net/images/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg');
 
         } else if (message.type === 'currentHeading') {
           heading = message.heading;

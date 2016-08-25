@@ -15,6 +15,20 @@ class SearchPanel extends Component {
     console.log(this, 'search');
   }
 
+  resetSearch() {
+    this.props.action.resetSearch();
+    let positionObj = {
+      latitude: this.props.currentPosition.latitude,
+      longitude: this.props.currentPosition.longitude,
+      threejsLat: this.props.threeLat,
+      threejsLon: this.props.threeLon
+    };
+
+    this.props.action.fetchPlaces(positionObj)
+    .then(() => {this.props.action.userPlacesQuery(positionObj)});
+
+  }
+
   render() {
     return (
       <View style={{justifyContent: 'center'}}>
@@ -26,7 +40,7 @@ class SearchPanel extends Component {
           <TouchableHighlight style={styles.searchButtons} onPress={() => { this.props.action.drawerState('Events'); }}>
             <Text style={styles.searchButtonText}>events</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={styles.placeOrEventButton} onPress={() => { this.props.action.resetSearch(); }}>
+          <TouchableHighlight style={styles.placeOrEventButton} onPress={() => { this.resetSearch(); }}>
             <Text style={styles.buttonText}>reset</Text>
           </TouchableHighlight>
         </View>
@@ -37,7 +51,10 @@ class SearchPanel extends Component {
 
 const mapStateToProps = function(state) {
   return {
-    user: state.user
+    user: state.user,
+    currentPosition: state.Geolocation.currentPosition,
+    threeLat: state.Geolocation.threeLat,
+    threeLon: state.Geolocation.threeLon
   };
 };
 

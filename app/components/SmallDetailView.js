@@ -55,13 +55,6 @@ class SmallDetailView extends Component {
     this.props.closePanel();
   }
 
-      //when click on an image
-        //close panel
-        //inject image to specific location
-        //switch on ARImageMode
-        //webview gets rid of the objects in scene
-        //webview renders the images
-
   renderImg() {
     let images;
 
