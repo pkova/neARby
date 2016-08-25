@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import styles from '../styles/style';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -114,7 +116,7 @@ const mapStateToProps = function(state) {
     user: state.user,
     drawer: state.drawer.option,
     preview: state.detail.preview,
-    focalPlace: state.detail.focalPlace
+    focalPlace: state.detail.focalPlace,
   };
 };
 

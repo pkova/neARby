@@ -3,7 +3,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image
+  Image,
+  ScrollView
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -20,7 +21,7 @@ class SmallDetailView extends Component {
       upvote: false,
       downvote: false,
       upvotes: this.props.place.upvotes || 0,
-      downvotes: this.props.place.downvotes || 0
+      downvotes: this.props.place.downvotes || 0,
     };
   }
 
@@ -48,7 +49,51 @@ class SmallDetailView extends Component {
     // this.submitVote('downvote');
   }
 
+  enterARImageMode() {
+    console.log('enterARImageMode');
+    this.props.action.switchARImageMode(true);
+    this.props.closePanel();
+  }
+
+      //when click on an image
+        //close panel
+        //inject image to specific location
+        //switch on ARImageMode
+        //webview gets rid of the objects in scene
+        //webview renders the images
+
+      //once close button in ARImageMode is hit
+        //exit the ARImageMode, query the server and rerender the objs
+        //gets rid of the close button
+
+  renderImg() {
+    let images;
+
+    //if the place img attribute is an array it is a user place or event
+    if (Array.isArray(this.props.place.img)) {
+      images = this.props.place.img;
+    } else {
+      images = this.props.photos;
+    }
+
+      return (
+        <ScrollView horizontal={true} style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row'}}>
+            {images.slice(0,10).map(function(item, key) {
+              return (
+                <TouchableOpacity key={key} onPress={() => {this.enterARImageMode()}}>
+                    <Image source={{uri: item}} style={styles.images}/>
+                </TouchableOpacity>);
+              }.bind(this))
+            }
+          </View>
+        </ScrollView>
+      );
+  }
+
+
   render() {
+    // let button;
     let buttons = (
         <View style={styles.detailPreview_iconColumn}>
           <View style={styles.detailPreview_Btn}>
@@ -117,9 +162,7 @@ class SmallDetailView extends Component {
             <TouchableOpacity>
               <Text style={styles.detailPreview_heading}>{this.props.place.name}</Text>
             </TouchableOpacity>
-            <View style={{paddingLeft: 10}}>
-              <Image style={styles.detailPreview_image} source={{uri: 'http://kohlerglobalprojects.com/assets/Uploads/DetailThumb/Hotel-Indigo-Thumbnail.jpg'}}></Image>
-            </View>
+            {this.renderImg()}
           </View>
           {buttons}
         </View>
@@ -131,7 +174,8 @@ class SmallDetailView extends Component {
 
 const mapStateToProps = function(state) {
   return {
-    user: state.user
+    user: state.user,
+    photos: state.photos.photos
   };
 };
 

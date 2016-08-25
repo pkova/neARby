@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
   TouchableHighlight,
+  TouchableOpacity,
   Image,
   Text,
   DeviceEventEmitter //DeviceEventEmitter is imported for geolocation update
@@ -51,6 +52,17 @@ class ARcomponent extends Component {
       this.sendPlacesToWebView(nextProps.places);
       this.props.action.resetPlaceUpdate();
     }
+
+    if (!nextProps.insideARImageMode && this.activateARImageMode && nextProps.ARImageMode) {
+      if (Array.isArray(nextProps.places[nextProps.focalPlace].img)) {
+        this.activateARImageMode(nextProps.places[nextProps.focalPlace].img);
+        console.log('nextProps.places[nextProps.focalPlace].img');
+      } else {
+        this.activateARImageMode(nextProps.photos);
+        console.log('nextProps.photos');
+      }
+      this.props.action.insideARImageMode(true);
+    }
   }
 
   componentWillUnmount() {
@@ -73,7 +85,6 @@ class ARcomponent extends Component {
       (data) => {
 
         this.setState({currentHeading: data.heading});
-        
         callback(data.heading);
       }
     );
@@ -108,6 +119,7 @@ class ARcomponent extends Component {
       //     setTimeout(() => {this.props.action.fetchPlaces(positionObj)}, 5000);
       //   }
       // })
+
       .catch((err) => {
         //implement error message
         setTimeout(() => {this.props.action.fetchPlaces(positionObj)
@@ -204,10 +216,7 @@ class ARcomponent extends Component {
 
     //this will sent current heading to threejs to correct
     this.calibrateCameraAngle = (heading) => {
-      if (sendNewHeading) {
-        webviewbridge.sendToBridge(JSON.stringify({type: 'currentHeading', heading: heading}));
-        sendNewHeading = false;
-      }
+      webviewbridge.sendToBridge(JSON.stringify({type: 'currentHeading', heading: heading}));
     };
 
     this.updateThreeJSCameraPosition = (newCameraPosition) => {
@@ -226,7 +235,6 @@ class ARcomponent extends Component {
         longitude: longitude,
         threejsLat: threejsLat || 0,
         threejsLon: threejsLon || 0
-        //more filters
       };
 
       //if there are searches for events for places, keep fetching those searches
@@ -238,10 +246,15 @@ class ARcomponent extends Component {
         .then(this.props.action.userPlacesQuery(this.props.placeQuery));
       } else if (this.props.searchMode === 'events') {
         var clone = Object.assign({}, this.props.eventQuery);
-        clone.latitude = 37.78379517610909;
-        clone.latitude = -122.4091795553662;
+        clone.latitude = this.props.currentPosition.latitude;
+        clone.longitude = this.props.currentPosition.longitude;
         this.props.action.eventQuery(clone);
       }
+    };
+
+    this.activateARImageMode = (images) => {
+      let imageMsg = {type: 'images', images: images};
+      webviewbridge.sendToBridge(JSON.stringify(imageMsg));
     };
 
     message = JSON.parse(message);
@@ -256,78 +269,76 @@ class ARcomponent extends Component {
       //if distance exceed a certain treashold, updatePlaces will be called to fetch new locations
       this.watchGeolocation(this.updateThreeJSCameraPosition, this.updatePlaces);
       //calibrate threejs camera according to north every 5 seconds
-      setInterval(() => { sendNewHeading = true; }, 5000);
       this.sendOrientation(this.calibrateCameraAngle);
     } else if (message.type === 'click') {
-      this.props.action.openPreview([message.key]);
-      console.log('threeJS click', message.key, this.props.places[message.key]);
+      
+      if (this.props.places[message.key].type === 'userPlace' || this.props.places[message.key].type === 'userEvent') {
+        // console.log('openPreviewopenPreview');
+        this.props.action.openPreview(message.key);
+      } else {
+        // console.log('imageQueryimageQuery');
+        this.props.action.imageQuery(this.props.places[message.key])
+        .then((results) => {
+          // console.log('results', results);
+          this.props.action.openPreview(message.key);
+        });
+      }
+
+      // console.log('threeJS click', message.key, this.props.places[message.key]);
     } else {
       console.log(message);
     }
 
   }
 
+  exitARImageMode() {
+    console.log('exitARImageMode');
+    this.props.action.switchARImageMode(false);
+    this.props.action.openPreview(this.props.focalPlace);
 
-  renderDebug() {
-    return (
-      <View>
-        <Text>
-          <Text style={styles.title}>Current position: </Text>
-          {this.props.currentPositionString}
-        </Text>
-        <TouchableHighlight onPress={() => { this.addCubeToLocation({latitude: this.props.currentPosition.latitude, longitude: this.props.currentPosition.longitude})} }>
-          <Text>add cube here</Text>
-        </TouchableHighlight>
-        <Text>
-          <Text style={styles.title}>Current heading: </Text>
-          {this.state.currentHeading}
-        </Text>
-        <Text>
-          <Text style={styles.title}>threeLat from 0,0: </Text>
-          {this.props.threeLat}
-        </Text>
-        <Text>
-          <Text style={styles.title}>threeLon from 0,0: </Text>
-          {this.props.threeLon}
-        </Text>
-        <Text>
-          <Text style={styles.title}>Distance from last API call: </Text>
-          {this.props.distanceFromLastAPICallString}
-        </Text>
-        <Text>
-          <Text style={styles.title}>Total API calls: </Text>
-          {this.props.totalAPICalls}
-        </Text>
-        <TouchableHighlight onPress={() => {this.controlThreeJSCamera(0.2, 0)} }>
-          <Text>go front</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => {this.controlThreeJSCamera(-.2, 0)} }>
-          <Text>go back</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => {this.controlThreeJSCamera(0, -.2)} }>
-          <Text>go left</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => {this.controlThreeJSCamera(0, .2)} }>
-          <Text>go right</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => {testHeading += 1; this.setHeading(testHeading)}}>
-          <Text>add heading</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => {testHeading -= 1; this.setHeading(testHeading)}}>
-          <Text>reduce heading</Text>
-        </TouchableHighlight>
-      </View>
-    );
+    let positionObj = {
+      latitude: this.props.currentPosition.latitude,
+      longitude: this.props.currentPosition.longitude,
+      threejsLat: this.props.threejsLat,
+      threejsLon: this.props.threejsLon
+    };
+
+
+    this.props.action.fetchPlaces(positionObj)
+    .then(() => {this.props.action.userPlacesQuery(positionObj)});
   }
 
+  renderARImageModeCloseBtn() {
+    if (this.props.ARImageMode === true) {
+      return (
+        <View style={{flex:1, flexDirection:'row'}}>
+          <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center'}} onPress={() => {this.exitARImageMode();}}>
+            <View style={styles.button}>
+              <Image style={styles.objectButton} source={require('../assets/close_white.png')}/>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+    return;
+  }
+
+  renderCompass() {
+    if (!this.props.ARImageMode) {
+      return (
+        <Compass style={styles.compass} rotation={this.state.currentHeading} places={this.props.places} currentLocation={{threeLat: this.props.threeLat, threeLon: this.props.threeLon}}/>
+      );
+    }
+    return;
+  }
   renderButtons() {
     return (
       <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-start'}}>
-        <TouchableHighlight style={styles.menu} onPress={this.props.pressSearch}>
+        <TouchableOpacity style={styles.menu} onPress={this.props.pressSearch}>
           <View style={styles.button}>
             <Image style={styles.search} source={require('../assets/search.png')}/>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
         <TouchableHighlight style={styles.menu} onPress={this.props.pressList}>
           <View style={styles.button}>
             <Image style={styles.search} source={require('../assets/link.png')}/>
@@ -335,7 +346,7 @@ class ARcomponent extends Component {
         </TouchableHighlight>
         <TouchableHighlight style={styles.menu} onPress={this.props.pressCreate}>
           <View style={styles.button}>
-            <Image style={styles.objectButton} source={require('../assets/place.png')}/>
+            <Image style={styles.objectButton} source={require('../assets/plus.png')}/>
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={styles.menu} onPress={this.props.pressProfile}>
@@ -364,8 +375,9 @@ class ARcomponent extends Component {
             style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'column', alignItems: 'flex-end'}}>
             <View>{this.renderButtons()}</View>
             <View style={{flex: 1, justifyContent: 'center'}}>
-            <Compass style={styles.compass} rotation={this.state.currentHeading} places={this.props.places} currentLocation={{threeLat: this.props.threeLat, threeLon: this.props.threeLon}}/>
+              {this.renderCompass()}
             </View>
+            {this.renderARImageModeCloseBtn()}
           </WebViewBridge>
         </Camera>
         {/* this.renderDebug() */}
@@ -383,6 +395,11 @@ const mapStateToProps = function(state) {
     searchMode: state.places.searchMode,
     placeQuery: state.places.placeQuery,
     eventQuery: state.places.eventQuery,
+
+    ARImageMode: state.detail.ARImageMode,
+    insideARImageMode: state.detail.insideARImageMode,
+    focalPlace: state.detail.focalPlace,
+    photos: state.photos.photos,
 
     initialPosition: state.Geolocation.initialPosition,
     currentPosition: state.Geolocation.currentPosition,

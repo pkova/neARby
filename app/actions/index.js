@@ -288,7 +288,7 @@ export const CURRENT_POSITION_UPDATE = 'CURRENT_POSITION_UPDATE';
 export const LOADING_LOCATION = 'LOADING_LOCATION';
 
 export const updateInitLocation = (location) => {
-  console.log('updateInitLocation');
+  // console.log('updateInitLocation');
   console.log('location',location);
   return {
     type: INIT_POSITION_UPDATE,
@@ -299,7 +299,7 @@ export const updateInitLocation = (location) => {
 };
 
 export const updateCurrentLocation = (location) => {
-  console.log('updateCurrentLocation');
+  // console.log('updateCurrentLocation');
   return {
     type: CURRENT_POSITION_UPDATE,
     payload: {
@@ -312,7 +312,7 @@ export const updateCurrentLocation = (location) => {
 };
 
 export const finishLoadingPosition = (boolean) => {
-  console.log('updateCurrentHeading');
+  // console.log('updateCurrentHeading');
   return {
     type: LOADING_LOCATION,
     payload: {
@@ -434,5 +434,25 @@ export const sendVote = (place) => {
   return {
     type: PLACES_COLLECTION,
     payload: collection
+  };
+};
+
+//////////////////////////////
+////AR image mode handler
+//////////////////////////////
+export const AR_IMAGE_MODE = 'AR_IMAGE_MODE';
+export const INSIDE_AR_IMAGE_MODE = 'INSIDE_AR_IMAGE_MODE';
+
+export const switchARImageMode = (boolean) => {
+  return {
+    type: AR_IMAGE_MODE,
+    payload: boolean
+  };
+};
+
+export const insideARImageMode = (boolean) => {
+  return {
+    type: INSIDE_AR_IMAGE_MODE,
+    payload: boolean
   };
 };
