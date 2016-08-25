@@ -52,8 +52,10 @@ class ARcomponent extends Component {
     if (!nextProps.insideARImageMode && this.activateARImageMode && nextProps.ARImageMode) {
       if (Array.isArray(nextProps.places[nextProps.focalPlace].img)) {
         this.activateARImageMode(nextProps.places[nextProps.focalPlace].img);
+        console.log('nextProps.places[nextProps.focalPlace].img');
       } else {
         this.activateARImageMode(nextProps.photos);
+        console.log('nextProps.photos');
       }
       this.props.action.insideARImageMode(true);
     }
