@@ -32,6 +32,18 @@ const RenderScene =
           });
         };
 
+        var sizeFont = function(context, text, maxWidth) {
+          var width = context.measureText(text).width;
+          var fontSize = parseInt(context.font.split(' ')[0], 10);
+          while (width > maxWidth) {
+            fontSize--;
+            var oldFont = context.font.split(' ');
+            oldFont[0] = fontSize + 'px';
+            context.font = oldFont.join(' ');
+            width = context.measureText(text).width;
+          }
+        };
+
         window.createPlace = function(lat, long, name, distance, key) {
 
           var bitmap = document.createElement('canvas');
@@ -41,8 +53,9 @@ const RenderScene =
           g.font = 'Bold 30px Helvetica, sans-serif';
 
           g.fillStyle = '#007F7F';
-          g.fillRect(0, 0, 300, 150);
+          g.fillRect(0, 0, bitmap.width, bitmap.height);
           g.fillStyle = 'white';
+          sizeFont(g, name, bitmap.width)
           g.textAlign = 'center';
           g.fillText(name, 150, 75);
           g.strokeStyle = 'white';
@@ -56,7 +69,7 @@ const RenderScene =
           var texture = new THREE.Texture(bitmap);
           texture.needsUpdate = true;
 
-          var geo = new THREE.PlaneGeometry(0.5, 0.5);
+          var geo = new THREE.PlaneGeometry(1, 0.5);
           var mat = new THREE.MeshBasicMaterial({transparent: true, opacity: 0.75, map: texture});
           var cube = new THREE.Mesh(geo, mat);
           cube.position.set(long, 0, -1 * lat);
@@ -71,6 +84,7 @@ const RenderScene =
           while (checkCollision(bbox)) {
             cube.translateY(0.3);
           }
+          cube.matrixAutoUpdate = false;
           window.divs.push(cube);
         };
 
