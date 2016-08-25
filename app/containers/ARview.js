@@ -23,10 +23,6 @@ import html from '../webview/html';
 import { injectScript } from '../webview/webviewBridgeScript';
 import Compass from '../components/Compass';
 
-//webviewbrige variables
-var testHeading = 0;
-var sendNewHeading = false;
-
 //deltaX is change in latidue, north (+), south (-)
 //deltaZ is change im latidue, east(+), west (-)
 class ARcomponent extends Component {
@@ -56,10 +52,8 @@ class ARcomponent extends Component {
     if (!nextProps.insideARImageMode && this.activateARImageMode && nextProps.ARImageMode) {
       if (Array.isArray(nextProps.places[nextProps.focalPlace].img)) {
         this.activateARImageMode(nextProps.places[nextProps.focalPlace].img);
-        console.log('nextProps.places[nextProps.focalPlace].img');
       } else {
         this.activateARImageMode(nextProps.photos);
-        console.log('nextProps.photos');
       }
       this.props.action.insideARImageMode(true);
     }
