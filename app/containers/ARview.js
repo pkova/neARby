@@ -86,15 +86,6 @@ class ARcomponent extends Component {
 
         this.setState({currentHeading: data.heading});
         callback(data.heading);
-
-        // let smoothingValue = 300;
-        // let previousHeading = this.state.currentHeading;
-        // let currentHeading = data.heading;
-
-        // let newHeading = previousHeading + (currentHeading - previousHeading) / smoothingValue;
-        // this.setState({currentHeading: currentHeading});
-       
-        // callback(newHeading);
       }
     );
   }
@@ -280,7 +271,6 @@ class ARcomponent extends Component {
       //calibrate threejs camera according to north every 5 seconds
       this.sendOrientation(this.calibrateCameraAngle);
     } else if (message.type === 'click') {
-      
       if (this.props.places[message.key].type === 'userPlace' || this.props.places[message.key].type === 'userEvent') {
         // console.log('openPreviewopenPreview');
         this.props.action.openPreview(message.key);
@@ -292,8 +282,6 @@ class ARcomponent extends Component {
           this.props.action.openPreview(message.key);
         });
       }
-
-      // console.log('threeJS click', message.key, this.props.places[message.key]);
     } else {
       console.log(message);
     }

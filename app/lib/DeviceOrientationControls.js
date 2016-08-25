@@ -119,6 +119,7 @@ const DeviceOrientationControls = `
 					}
 				}
 
+
 				var alpha = scope.deviceOrientation.alpha ? THREE.Math.degToRad( scope.deviceOrientation.alpha ) + THREE.Math.degToRad(360 - angleDifference)  : 0; // Z
 				var beta = scope.deviceOrientation.beta ? THREE.Math.degToRad( scope.deviceOrientation.beta ) : 0; // X'
 				var gamma = scope.deviceOrientation.gamma ? THREE.Math.degToRad( scope.deviceOrientation.gamma ) : 0; // Y''
