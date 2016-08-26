@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  TouchableHighlight,
   TouchableOpacity,
   Image,
   Text,
@@ -22,10 +21,6 @@ import html from '../webview/html';
 //this script will be injectScripted into WebViewBridge to communicate
 import { injectScript } from '../webview/webviewBridgeScript';
 import Compass from '../components/Compass';
-
-//webviewbrige variables
-var testHeading = 0;
-var sendNewHeading = false;
 
 //deltaX is change in latidue, north (+), south (-)
 //deltaZ is change im latidue, east(+), west (-)
@@ -48,18 +43,17 @@ class ARcomponent extends Component {
 
   componentWillReceiveProps(nextProps) {
     //rerender places only when placeUpdate is true;
-    if (this.sendPlacesToWebView && nextProps.placeUpdate) {
+    if (!nextProps.ARImageMode && this.sendPlacesToWebView && nextProps.placeUpdate) {
       this.sendPlacesToWebView(nextProps.places);
       this.props.action.resetPlaceUpdate();
     }
 
     if (!nextProps.insideARImageMode && this.activateARImageMode && nextProps.ARImageMode) {
-      if (Array.isArray(nextProps.places[nextProps.focalPlace].img)) {
-        this.activateARImageMode(nextProps.places[nextProps.focalPlace].img);
-        console.log('nextProps.places[nextProps.focalPlace].img');
+      console.log('nextProps.insideARImageMode');
+      if (Array.isArray(nextProps.focalPlace.img)) {
+        this.activateARImageMode(nextProps.focalPlace.img);
       } else {
         this.activateARImageMode(nextProps.photos);
-        console.log('nextProps.photos');
       }
       this.props.action.insideARImageMode(true);
     }
@@ -114,16 +108,10 @@ class ARcomponent extends Component {
       };
       this.props.action.fetchPlaces(positionObj)
       .then(() => {this.props.action.userPlacesQuery(positionObj)})
-      // .then((response) => {
-      //   if (response.payload.length === 0) {
-      //     setTimeout(() => {this.props.action.fetchPlaces(positionObj)}, 5000);
-      //   }
-      // })
 
       .catch((err) => {
         //implement error message
-        setTimeout(() => {this.props.action.fetchPlaces(positionObj)
-          .then(() => {this.props.action.userPlacesQuery(positionObj)})}, 5000);
+        setTimeout(() => {this.props.action.fetchPlaces(positionObj)}, 3000);
       });
 
       initialCameraAngleCallback();
@@ -239,12 +227,15 @@ class ARcomponent extends Component {
 
       //if there are searches for events for places, keep fetching those searches
       if (this.props.searchMode === 'none') {
+        console.log('rangereached fetch');
         this.props.action.fetchPlaces(positionObj)
         .then(this.props.action.userPlacesQuery(positionObj));
       } else if (this.props.searchMode === 'places') {
+        console.log('rangereached places fetch');
         this.props.action.placeQuery(this.props.placeQuery)
         .then(this.props.action.userPlacesQuery(this.props.placeQuery));
       } else if (this.props.searchMode === 'events') {
+        console.log('rangereached places fetch');
         var clone = Object.assign({}, this.props.eventQuery);
         clone.latitude = this.props.currentPosition.latitude;
         clone.longitude = this.props.currentPosition.longitude;
@@ -271,20 +262,17 @@ class ARcomponent extends Component {
       //calibrate threejs camera according to north every 5 seconds
       this.sendOrientation(this.calibrateCameraAngle);
     } else if (message.type === 'click') {
-      
-      if (this.props.places[message.key].type === 'userPlace' || this.props.places[message.key].type === 'userEvent') {
-        // console.log('openPreviewopenPreview');
-        this.props.action.openPreview(message.key);
+        console.log('openPreviewopenPreview', this.props.places[message.key]);
+      if (this.props.places[message.key].type && (this.props.places[message.key].type === 'userPlace' || this.props.places[message.key].type === 'userEvent')) {
+        this.props.action.openPreview(this.props.places[message.key]);
       } else {
         // console.log('imageQueryimageQuery');
         this.props.action.imageQuery(this.props.places[message.key])
         .then((results) => {
           // console.log('results', results);
-          this.props.action.openPreview(message.key);
+          this.props.action.openPreview(this.props.places[message.key]);
         });
       }
-
-      // console.log('threeJS click', message.key, this.props.places[message.key]);
     } else {
       console.log(message);
     }
@@ -294,6 +282,7 @@ class ARcomponent extends Component {
   exitARImageMode() {
     console.log('exitARImageMode');
     this.props.action.switchARImageMode(false);
+    this.props.action.insideARImageMode(false);
     this.props.action.openPreview(this.props.focalPlace);
 
     let positionObj = {
@@ -339,21 +328,21 @@ class ARcomponent extends Component {
             <Image style={styles.search} source={require('../assets/search.png')}/>
           </View>
         </TouchableOpacity>
-        <TouchableHighlight style={styles.menu} onPress={this.props.pressList}>
+        <TouchableOpacity style={styles.menu} onPress={this.props.pressList}>
           <View style={styles.button}>
             <Image style={styles.search} source={require('../assets/link.png')}/>
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.menu} onPress={this.props.pressCreate}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menu} onPress={this.props.pressCreate}>
           <View style={styles.button}>
             <Image style={styles.objectButton} source={require('../assets/plus.png')}/>
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.menu} onPress={this.props.pressProfile}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menu} onPress={this.props.pressProfile}>
           <View style={styles.button}>
             <Image style={styles.userimg} source={{uri: this.props.user.picture}}/>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -377,7 +366,7 @@ class ARcomponent extends Component {
             <View style={{flex: 1, justifyContent: 'center'}}>
               {this.renderCompass()}
             </View>
-            {this.renderARImageModeCloseBtn()}
+          {this.renderARImageModeCloseBtn()}
           </WebViewBridge>
         </Camera>
         {/* this.renderDebug() */}

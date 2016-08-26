@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  TouchableHighlight,
   Slider,
   ScrollView
 } from 'react-native';
@@ -17,6 +16,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../actions/index';
 import uploadImage from '../lib/S3Upload';
 import Promise from "bluebird";
+
 
 //TODOs:
 //add color selector for geometry and a color state, fix timestamp on event request obj
@@ -61,7 +61,7 @@ class CreatePanel extends Component {
       longitude: this.props.currentPosition.longitude,
       lat: this.props.threeLat,
       lon: this.props.threeLon,
-      distance: this.props.distance,
+      distance: Math.floor(this.props.distance * 3.28084),
       username: this.props.username,
       type: 'userPlace',
       upvotes: 0,
@@ -96,7 +96,7 @@ class CreatePanel extends Component {
       username: this.props.username,
       lat: this.props.threeLat,
       lon: this.props.threeLon,
-      distance: this.props.distance,
+      distance: Math.floor(this.props.distance * 3.28084),
       type: 'userEvent',
       upvotes: 0,
       downvotes: 0,
@@ -196,13 +196,13 @@ class CreatePanel extends Component {
               </View>
             </ScrollView>
 
-          <TouchableHighlight onPress={this.pickImage.bind(this)}>
+          <TouchableOpacity onPress={this.pickImage.bind(this)}>
             <Text style={styles.inputLable2}>upload picture</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <TouchableHighlight style={styles.createButton} onPress={() => { this.handleSubmitPlace(); }}>
+            <TouchableOpacity style={styles.createButton} onPress={() => { this.handleSubmitPlace(); }}>
               <Text style={styles.buttonText}>add spots</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
       );
@@ -231,13 +231,13 @@ class CreatePanel extends Component {
               }
             </View>
           </ScrollView>
-          <TouchableHighlight onPress={this.pickImage.bind(this)}>
+          <TouchableOpacity onPress={this.pickImage.bind(this)}>
             <Text style={styles.inputLable2}>upload picture</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <TouchableHighlight style={styles.createButton} onPress={() => { this.handleSubmitEvent(); }}>
+            <TouchableOpacity style={styles.createButton} onPress={() => { this.handleSubmitEvent(); }}>
               <Text style={styles.buttonText}>add spots</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
       );

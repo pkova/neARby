@@ -26,27 +26,19 @@ class SmallDetailView extends Component {
   }
 
   submitVote(vote) {
-    console.log('submitVote');
-    let focalPlace = this.props.place;
     let username = this.props.user.username;
-    let voteObj = {
-      name: focalPlace.name,
-      latitude: focalPlace.latitude,
-      longitude: focalPlace.longitude,
-      username: username,
-      vote: vote
-    };
-    // this.props.action.sendVote(voteObj);
+    let voteObj = Object.assign({vote: vote, username: username}, this.props.place);
+    this.props.action.sendVote(voteObj);
   }
 
   upvote() {
     this.setState({upvote: true, downvote: false, voted: true, upvotes: this.props.place.upvotes + 1 || 1, downvotes: this.props.place.downvotes || 0});
-    // this.submitVote('upvote');
+    this.submitVote('upvote');
   }
 
   downvote() {
     this.setState({upvote: false, downvote: true, voted: true, upvotes: this.props.place.upvotes || 0, downvotes: this.props.place.downvotes + 1 || 1});
-    // this.submitVote('downvote');
+    this.submitVote('downvote');
   }
 
   enterARImageMode() {
@@ -54,17 +46,6 @@ class SmallDetailView extends Component {
     this.props.action.switchARImageMode(true);
     this.props.closePanel();
   }
-
-      //when click on an image
-        //close panel
-        //inject image to specific location
-        //switch on ARImageMode
-        //webview gets rid of the objects in scene
-        //webview renders the images
-
-      //once close button in ARImageMode is hit
-        //exit the ARImageMode, query the server and rerender the objs
-        //gets rid of the close button
 
   renderImg() {
     let images;
@@ -76,24 +57,23 @@ class SmallDetailView extends Component {
       images = this.props.photos;
     }
 
-      return (
-        <ScrollView horizontal={true} style={{flexDirection: 'row'}}>
-          <View style={{flexDirection: 'row'}}>
-            {images.slice(0,10).map(function(item, key) {
-              return (
-                <TouchableOpacity key={key} onPress={() => {this.enterARImageMode()}}>
-                    <Image source={{uri: item}} style={styles.images}/>
-                </TouchableOpacity>);
-              }.bind(this))
-            }
-          </View>
-        </ScrollView>
-      );
+    return (
+      <ScrollView horizontal={true} style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row'}}>
+          {images.slice(0,10).map(function(item, key) {
+            return (
+              <TouchableOpacity key={key} onPress={() => {this.enterARImageMode()}}>
+                  <Image source={{uri: item}} style={styles.images}/>
+              </TouchableOpacity>);
+            }.bind(this))
+          }
+        </View>
+      </ScrollView>
+    );
   }
 
 
   render() {
-    // let button;
     let buttons = (
         <View style={styles.detailPreview_iconColumn}>
           <View style={styles.detailPreview_Btn}>
@@ -141,7 +121,7 @@ class SmallDetailView extends Component {
       );
     }
 
-    if (this.props.place.type && this.props.place.type === 'userPlace' || this.props.place.type === 'userEvent') {
+    if (this.props.place.type && (this.props.place.type === 'userPlace' || this.props.place.type === 'userEvent')) {
       buttons = (
         <View style={styles.detailPreview_iconColumn}>
           <View style={styles.detailPreview_Btn}>
