@@ -51,12 +51,12 @@ class SmallDetailView extends Component {
     let images;
 
     //if the place img attribute is an array it is a user place or event
-    // console.log('this.props.place.img', typeof this.props.place.img);
+    // console.log('this.props.place.img', Array.isArray(this.props.place.img));
     if (this.props.place.type === 'userPlace' || this.props.place.type === 'userEvent') {
       if (this.props.place.img === '') {
         images = [];
       } else {
-        images = this.props.place.img.split(',');
+        images = this.props.place.img;
       }
     } else {
       images = this.props.photos;

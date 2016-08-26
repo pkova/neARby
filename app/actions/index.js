@@ -29,7 +29,7 @@ export const fetchPlaces = (position) => {
   })
   .then(function(response) {
     if (response.status === 200) {
-      // console.log(response);
+      // console.log('response', response);
       return response.json();
     } else  {
       return [];
@@ -69,7 +69,6 @@ export const placeQuery = (query) => {
     console.error(error);
     return [];
   });
-  // userPlacesQuery(query);
   return {
     type: SEARCH_PLACES,
     payload: search
@@ -336,6 +335,7 @@ export const addPlace = (place) => {
   })
   .then(function(response) {
     if (response.status === 200) {
+      // console.log('testing addPlace', search);
       return response.json();
     } else  {
       console.log('error adding Places: ', response);
@@ -344,7 +344,6 @@ export const addPlace = (place) => {
   .catch(function(error) {
     console.error('error adding Places: ', error);
   });
-  // console.log('testing addPlace', search);
   return {
     type: USER_PLACES,
     payload: search

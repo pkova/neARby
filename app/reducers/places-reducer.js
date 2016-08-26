@@ -44,6 +44,7 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case PLACES_COLLECTION:
+    // console.log('PLACES_COLLECTION', action.payload);
       return {
         ...state,
         places: action.payload,
@@ -71,12 +72,14 @@ export default function(state = initialState, action) {
         searchMode: action.payload
       };
     case USER_PLACES:
+      // console.log('USER_PLACES', action.payload);
       return {
         ...state,
         places: state.places.concat(action.payload),
         placeUpdate: true
       };
     case USER_EVENTS:
+      // console.log('USER_EVENTS', action.payload);
       return {
         ...state,
         places: state.places.concat([action.payload]),
