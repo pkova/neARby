@@ -49,6 +49,7 @@ class ARcomponent extends Component {
     }
 
     if (!nextProps.insideARImageMode && this.activateARImageMode && nextProps.ARImageMode) {
+      console.log('nextProps.insideARImageMode');
       if (Array.isArray(nextProps.places[nextProps.focalPlace].img)) {
         this.activateARImageMode(nextProps.places[nextProps.focalPlace].img);
       } else {
@@ -110,8 +111,7 @@ class ARcomponent extends Component {
 
       .catch((err) => {
         //implement error message
-        setTimeout(() => {this.props.action.fetchPlaces(positionObj)
-          .then(() => {this.props.action.userPlacesQuery(positionObj)})}, 5000);
+        setTimeout(() => {this.props.action.fetchPlaces(positionObj)}, 3000);
       });
 
       initialCameraAngleCallback();
@@ -282,6 +282,7 @@ class ARcomponent extends Component {
   exitARImageMode() {
     console.log('exitARImageMode');
     this.props.action.switchARImageMode(false);
+    this.props.action.insideARImageMode(false);
     this.props.action.openPreview(this.props.focalPlace);
 
     let positionObj = {
@@ -299,7 +300,7 @@ class ARcomponent extends Component {
   renderARImageModeCloseBtn() {
     if (this.props.ARImageMode === true) {
       return (
-        <View style={{flex:1, flexDirection:'row', backgroundColor:'red'}}>
+        <View style={{flex:1, flexDirection:'row'}}>
           <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center'}} onPress={() => {this.exitARImageMode();}}>
             <View style={styles.button}>
               <Image style={styles.objectButton} source={require('../assets/close_white.png')}/>
@@ -365,8 +366,8 @@ class ARcomponent extends Component {
             <View style={{flex: 1, justifyContent: 'center'}}>
               {this.renderCompass()}
             </View>
-          </WebViewBridge>
           {this.renderARImageModeCloseBtn()}
+          </WebViewBridge>
         </Camera>
         {/* this.renderDebug() */}
       </View>
