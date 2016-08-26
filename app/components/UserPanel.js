@@ -23,7 +23,7 @@ class UserPanel extends Component {
   componentDidMount() {
     this.plotItems();
   }
-
+  
   plotItems() {
     if (this.props.places.places !== []) {
       let items = [];
@@ -34,7 +34,9 @@ class UserPanel extends Component {
           title: this.props.places.places[i].name,
           subtitle: 'distance: ' + this.props.places.places[i].distance
         };
-        items.push(spot);
+        if (this.props.places.places[i].userid === this.props.user.id) {
+          items.push(spot);
+        }
       }
       this.setState({mapItems: items});
     }
@@ -47,13 +49,15 @@ class UserPanel extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-      <Text style={styles.subheading}>{this.props.user.username}</Text>
+      <Text style={styles.subheading}>{this.props.user.username}'s Spots</Text>
       <MapView
-        style={{flex: 2}}
+        style={{flex: 7}}
         showsUserLocation={true}
-        annotations={[{latitude: 37.785834, longitude: -122.406417, title: 'DOLORES PAWTY', subtitle: 'dawgs only'}]}
+        annotations={this.state.mapItems}
+        followUserLocation={true}
         />
-      <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center'}}>
+      <View style={{flex: 1, paddingTop: 20, justifyContent: 'space-between', alignItems: 'center'}}>
+      <Text>You have {this.state.mapItems.length} spots.</Text>
       <LoginButton
         publishPermissions={["publish_actions"]}
         onLogoutFinished={this.handleSignout.bind(this)}/>
@@ -62,7 +66,6 @@ class UserPanel extends Component {
     );
   }
 }
-
 const mapStateToProps = function(state) {
   return {
     user: state.user,
@@ -70,11 +73,9 @@ const mapStateToProps = function(state) {
     places: state.places
   };
 };
-
 const mapDispatchToProps = function(dispatch) {
   return {
     action: bindActionCreators({ drawerState }, dispatch)
   };
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(UserPanel);
