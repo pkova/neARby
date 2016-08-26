@@ -130,7 +130,7 @@ class SmallDetailView extends Component {
       );
     }
 
-    if (this.props.place.type && this.props.place.type === 'userPlace' || this.props.place.type === 'userEvent') {
+    if (this.props.place.type && (this.props.place.type === 'userPlace' || this.props.place.type === 'userEvent')) {
       buttons = (
         <View style={styles.detailPreview_iconColumn}>
           <View style={styles.detailPreview_Btn}>

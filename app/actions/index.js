@@ -77,7 +77,7 @@ export const placeQuery = (query) => {
 };
 
 export const eventQuery = (query) => {
-  console.log('jsut did a query!', query)
+  // console.log('jsut did a query!', query)
   // post request
     let search = fetch(`${server}events`, {
     method: 'POST',

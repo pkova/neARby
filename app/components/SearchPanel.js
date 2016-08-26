@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   Text
 } from 'react-native';
 import styles from '../styles/style';
-import { drawerState, resetSearch } from '../actions/index';
+import { drawerState, resetSearch, fetchPlaces } from '../actions/index';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -24,8 +24,7 @@ class SearchPanel extends Component {
       threejsLon: this.props.threeLon
     };
 
-    this.props.action.fetchPlaces(positionObj)
-    .then(() => {this.props.action.userPlacesQuery(positionObj)});
+    this.props.action.fetchPlaces(positionObj);
 
   }
 
@@ -34,15 +33,15 @@ class SearchPanel extends Component {
       <View style={{justifyContent: 'center'}}>
         <Text style={styles.heading}>search</Text>
         <View style={{alignItems: 'center', justifyContent: 'center', height: 400}}>
-          <TouchableHighlight style={styles.searchButtons} onPress={() => { this.props.action.drawerState('Places'); }}>
+          <TouchableOpacity style={styles.searchButtons} onPress={() => { this.props.action.drawerState('Places'); }}>
             <Text style={styles.searchButtonText}>places</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.searchButtons} onPress={() => { this.props.action.drawerState('Events'); }}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.searchButtons} onPress={() => { this.props.action.drawerState('Events'); }}>
             <Text style={styles.searchButtonText}>events</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.placeOrEventButton} onPress={() => { this.resetSearch(); }}>
-            <Text style={styles.buttonText}>reset</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.searchButtons} onPress={() => { this.resetSearch(); this.props.close(); }}>
+            <Text style={styles.searchButtonText}>reset</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -60,7 +59,7 @@ const mapStateToProps = function(state) {
 
 const mapDispatchToProps = function(dispatch) {
   return {
-    action: bindActionCreators({ drawerState, resetSearch }, dispatch)
+    action: bindActionCreators({ drawerState, resetSearch, fetchPlaces }, dispatch)
   };
 };
 

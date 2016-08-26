@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  TouchableHighlight,
   Slider,
   ScrollView
 } from 'react-native';
@@ -197,13 +196,13 @@ class CreatePanel extends Component {
               </View>
             </ScrollView>
 
-          <TouchableHighlight onPress={this.pickImage.bind(this)}>
+          <TouchableOpacity onPress={this.pickImage.bind(this)}>
             <Text style={styles.inputLable2}>upload picture</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <TouchableHighlight style={styles.createButton} onPress={() => { this.handleSubmitPlace(); }}>
+            <TouchableOpacity style={styles.createButton} onPress={() => { this.handleSubmitPlace(); }}>
               <Text style={styles.buttonText}>add spots</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
       );
@@ -232,13 +231,13 @@ class CreatePanel extends Component {
               }
             </View>
           </ScrollView>
-          <TouchableHighlight onPress={this.pickImage.bind(this)}>
+          <TouchableOpacity onPress={this.pickImage.bind(this)}>
             <Text style={styles.inputLable2}>upload picture</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <TouchableHighlight style={styles.createButton} onPress={() => { this.handleSubmitEvent(); }}>
+            <TouchableOpacity style={styles.createButton} onPress={() => { this.handleSubmitEvent(); }}>
               <Text style={styles.buttonText}>add spots</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
       );

@@ -74,7 +74,7 @@ export const injectScript = `
         } else if (message.type === 'images') {
           // window.alert('images mode');
           window.clearScene();
-          var images = message.images.slice(0,5);
+          var images = message.images.slice(0,20);
           images.forEach(function(image) {
             window.createImage(image);
           })

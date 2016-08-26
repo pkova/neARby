@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  TouchableHighlight,
   TouchableOpacity,
   Image,
   Text,
@@ -44,7 +43,7 @@ class ARcomponent extends Component {
 
   componentWillReceiveProps(nextProps) {
     //rerender places only when placeUpdate is true;
-    if (this.sendPlacesToWebView && nextProps.placeUpdate) {
+    if (!nextProps.ARImageMode && this.sendPlacesToWebView && nextProps.placeUpdate) {
       this.sendPlacesToWebView(nextProps.places);
       this.props.action.resetPlaceUpdate();
     }
@@ -300,7 +299,7 @@ class ARcomponent extends Component {
   renderARImageModeCloseBtn() {
     if (this.props.ARImageMode === true) {
       return (
-        <View style={{flex:1, flexDirection:'row'}}>
+        <View style={{flex:1, flexDirection:'row', backgroundColor:'red'}}>
           <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center'}} onPress={() => {this.exitARImageMode();}}>
             <View style={styles.button}>
               <Image style={styles.objectButton} source={require('../assets/close_white.png')}/>
@@ -328,21 +327,21 @@ class ARcomponent extends Component {
             <Image style={styles.search} source={require('../assets/search.png')}/>
           </View>
         </TouchableOpacity>
-        <TouchableHighlight style={styles.menu} onPress={this.props.pressList}>
+        <TouchableOpacity style={styles.menu} onPress={this.props.pressList}>
           <View style={styles.button}>
             <Image style={styles.search} source={require('../assets/link.png')}/>
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.menu} onPress={this.props.pressCreate}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menu} onPress={this.props.pressCreate}>
           <View style={styles.button}>
             <Image style={styles.objectButton} source={require('../assets/plus.png')}/>
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.menu} onPress={this.props.pressProfile}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menu} onPress={this.props.pressProfile}>
           <View style={styles.button}>
             <Image style={styles.userimg} source={{uri: this.props.user.picture}}/>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -366,8 +365,8 @@ class ARcomponent extends Component {
             <View style={{flex: 1, justifyContent: 'center'}}>
               {this.renderCompass()}
             </View>
-            {this.renderARImageModeCloseBtn()}
           </WebViewBridge>
+          {this.renderARImageModeCloseBtn()}
         </Camera>
         {/* this.renderDebug() */}
       </View>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   Switch,
   TextInput,
   Slider,
@@ -134,12 +134,12 @@ class EventPanel extends Component {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableHighlight style={styles.placeOrEventButton} onPress={() => { this.props.action.drawerState('Search', false); }}>
+          <TouchableOpacity style={styles.placeOrEventButton} onPress={() => { this.props.action.drawerState('Search', false); }}>
             <Text style={styles.buttonText}>go back</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.placeOrEventButton} onPress={() => { this.handleSubmit(); }}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.placeOrEventButton} onPress={() => { this.handleSubmit(); }}>
             <Text style={styles.buttonText}>submit</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </View>
     );
