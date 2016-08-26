@@ -91,10 +91,10 @@ class Main extends Component {
         type="overlay"
         side="right"
         ref={(ref) => {this._drawer = ref;}}
-        content={<View style={styles.panel}>
+        content={<View style={styles.panel}><View style={{ width: 30, alignItems: 'center' }}>
         <TouchableOpacity onPress={() => {this._drawer.close()}}>
-          <Text style={styles.exit}>x</Text>
-        </TouchableOpacity>{drawerItems}</View>}
+        <Text style={styles.exit}>x</Text>
+        </TouchableOpacity></View>{drawerItems}</View>}
         panOpenMask={0.5}
         panCloseMask={0.1}
         tweenHandler={(ratio) => ({main: { opacity:(3 - ratio) / 3 }})}>

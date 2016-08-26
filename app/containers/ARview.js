@@ -361,9 +361,9 @@ class ARcomponent extends Component {
             onBridgeMessage={this.onBridgeMessage.bind(this)}
             injectedJavaScript={injectScript}
             source={{html: html, baseUrl:'web/'}}
-            style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'column', alignItems: 'flex-end'}}>
+            style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'row', alignItems: 'flex-end'}}>
             <View>{this.renderButtons()}</View>
-            <View style={{flex: 1, justifyContent: 'center'}}>
+            <View style={{flex: 1, justifyContent: 'center', paddingLeft: 95, paddingTop: 80}}>
               {this.renderCompass()}
             </View>
           {this.renderARImageModeCloseBtn()}

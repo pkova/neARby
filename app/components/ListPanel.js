@@ -20,7 +20,7 @@ class ListPanel extends Component {
   render() {
     return (
       <View>
-        <Text style={styles.subheading}>Whats nearby</Text>
+        <Text style={styles.heading}>nearby</Text>
 
         <ScrollView style={styles.scrollView}>
           {this.props.places.map(function(item, key) {
@@ -28,7 +28,7 @@ class ListPanel extends Component {
               <TouchableOpacity key={key} onPress={() => { this.props.action.drawerState('Detail'); this.props.action.selectPlace(item); this.props.action.imageQuery(item); this.props.action.directionsQuery({curLat: 37.783537, curLon: -122.409003, destLat: item.realLat, destLon: item.realLon}); }}>
                 <View>
                   <Text style={styles.listText} >{item.name}</Text>
-                  <Text style={styles.switchText} >     {item.distance} Feet Away</Text>
+                  <Text style={styles.distanceText} >     {item.distance} feet away</Text>
                 </View>
               </TouchableOpacity>
               );
