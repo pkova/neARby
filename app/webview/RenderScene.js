@@ -60,7 +60,10 @@ const RenderScene =
             var geo = new THREE.PlaneGeometry(1, 1);
             var mat = new THREE.MeshBasicMaterial({transparent: true, opacity: 0.75, map: texture});
             var cube = new THREE.Mesh(geo, mat);
-            cube.position.set(Math.random() * 2, 0, Math.random() * 2);
+
+            var factor1 = [100, -100][Math.floor(Math.random() * 2)];
+            var factor2 = [100, -100][Math.floor(Math.random() * 2)];
+            cube.position.set(Math.random() * factor1, 0, Math.random() * factor2);
             cube.position.normalize();
             cube.position.multiplyScalar(3);
             cube.lookAt(camera.position);
@@ -86,23 +89,24 @@ const RenderScene =
           g.font = 'Bold 30px Helvetica, sans-serif';
 
           // g.fillStyle = '#007F7F';
-          // var geo = new THREE.PlaneGeometry(1, 0.5);
+          var geo = new THREE.PlaneGeometry(1, 0.5);
+          var textColor;
 
           if (type === 'place') {
             g.fillStyle = '#007F7F';
-            var geo = new THREE.PlaneGeometry(1, 0.5);
+            textColor = 'white';
           } else if (type === 'event') {
             g.fillStyle = '#ccff99';
-            var geo = new THREE.PlaneGeometry(1, 0.5);            
+            textColor = '#ff99cc';
           } else if (type === 'userPlace') {
             // window.alert('userPlace');
             g.fillStyle = '#ff0000';
-            var geo = new THREE.PlaneGeometry(1, 0.5); 
+            textColor = '#00ff00';
             // var geo = new THREE.TorusGeometry( 1, .25, 10, 25 ); 
           } else if (type === 'userEvent') {
             // window.alert('userPlace');
             g.fillStyle = '#ffff00';
-            var geo = new THREE.PlaneGeometry(1, 0.5);             
+            textColor = '#ff00ff';
             // var geo = new THREE.OctahedronGeometry( 1, 0 );
           }
 
@@ -116,12 +120,13 @@ const RenderScene =
           g.shadowOffsetY = 0;
           g.shadowBlur = 6;
 
+          g.fillStyle = textColor;
           g.textAlign = 'center';
           g.fillText(name, 150, 75);
-          g.strokeStyle = 'white';
+          g.strokeStyle = textColor;
           g.strokeText(name, 150, 75);
           g.fillText(distance, 150, 125);
-          g.strokeStyle = 'white';
+          g.strokeStyle = textColor;
           g.strokeText(distance, 150, 125);
           g.strokeRect(0, 0, 300, 150);
 

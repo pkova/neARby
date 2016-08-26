@@ -88,21 +88,21 @@ class Main extends Component {
 
     return (
       <Drawer
-        navigator={this.props.navigator}
-        type="overlay"
-        side="right"
-        ref={(ref) => {this._drawer = ref;}}
-        content={<View style={styles.panel}><TouchableHighlight onPress={() => {this._drawer.close()}}>
-      <Text style={styles.exit}>x</Text>
-      </TouchableHighlight>{drawerItems}</View>}
-        panOpenMask={0.5}
-        panCloseMask={0.1}
-        tweenHandler={(ratio) => ({main: { opacity:(3 - ratio) / 3 }})}>
+          navigator={this.props.navigator}
+          type="overlay"
+          side="right"
+          ref={(ref) => {this._drawer = ref;}}
+          content={<View style={styles.panel}><TouchableHighlight onPress={() => {this._drawer.close()}}>
+            <Text style={styles.exit}>x</Text>
+          </TouchableHighlight>{drawerItems}</View>}
+          panOpenMask={0.5}
+          panCloseMask={0.1}
+          tweenHandler={(ratio) => ({main: { opacity:(3 - ratio) / 3 }})}>
         <ARview
-          pressProfile={() => {this.props.action.drawerState('User'); this._drawer.open();}}
-          pressSearch={() => {this.props.action.drawerState('Search'); this._drawer.open();}}
-          pressList={() => {this.props.action.drawerState('List'); this._drawer.open();}}
-          pressCreate={() => {this.props.action.drawerState('Create'); this._drawer.open();}}
+            pressProfile={() => {this.props.action.drawerState('User'); this._drawer.open();}}
+            pressSearch={() => {this.props.action.drawerState('Search'); this._drawer.open();}}
+            pressList={() => {this.props.action.drawerState('List'); this._drawer.open();}}
+            pressCreate={() => {this.props.action.drawerState('Create'); this._drawer.open();}}
         />
         {this.renderPreview()}
       </Drawer>
