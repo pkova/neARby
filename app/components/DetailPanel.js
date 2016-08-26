@@ -77,10 +77,16 @@ class PlacePanel extends Component {
     } else {
       render = (
       <View>
+<<<<<<< HEAD
+        <Text style={styles.subheading}>{this.props.detail.name}</Text>
+        <Text style={styles.subheading}>{this.props.detail.address}</Text>
+
+=======
       <ScrollView style={styles.scrollView}>
         <Text style={styles.detailsHeading}>{this.props.detail.name}</Text>
         <Text style={styles.detailsHeading}>{this.props.detail.address}</Text>
         <Text style={styles.detailsHeading}>{this.props.detail.distance} Feet Away</Text>
+>>>>>>> refs/remotes/origin/master
         <ScrollView horizontal={true} style={{flexDirection: 'row'}}>
           <View style={{flexDirection: 'row'}}>
             {this.props.photos.map(function(item, key) {

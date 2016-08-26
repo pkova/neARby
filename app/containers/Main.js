@@ -87,17 +87,16 @@ class Main extends Component {
 
     return (
       <Drawer
-        navigator={this.props.navigator}
-        type="overlay"
-        side="right"
-        ref={(ref) => {this._drawer = ref;}}
-        content={<View style={styles.panel}><View style={{ width: 30, alignItems: 'center' }}>
-        <TouchableOpacity onPress={() => {this._drawer.close()}}>
-        <Text style={styles.exit}>x</Text>
-        </TouchableOpacity></View>{drawerItems}</View>}
-        panOpenMask={0.5}
-        panCloseMask={0.1}
-        tweenHandler={(ratio) => ({main: { opacity:(3 - ratio) / 3 }})}>
+          navigator={this.props.navigator}
+          type="overlay"
+          side="right"
+          ref={(ref) => {this._drawer = ref;}}
+          content={<View style={styles.panel}><TouchableHighlight onPress={() => {this._drawer.close()}}>
+            <Text style={styles.exit}>x</Text>
+          </TouchableHighlight>{drawerItems}</View>}
+          panOpenMask={0.5}
+          panCloseMask={0.1}
+          tweenHandler={(ratio) => ({main: { opacity:(3 - ratio) / 3 }})}>
         <ARview
             pressProfile={() => {this.props.action.drawerState('User'); this._drawer.open();}}
             pressSearch={() => {this.props.action.drawerState('Search'); this._drawer.open();}}

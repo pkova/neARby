@@ -78,8 +78,21 @@ class ARcomponent extends Component {
       'headingUpdated',
       (data) => {
 
+<<<<<<< HEAD
+        // this.setState({currentHeading: data.heading});
+        // callback(data.heading);
+
+        let smoothingValue = 12;
+        let previousHeading = this.state.currentHeading;
+        let currentHeading = data.heading;
+
+        let newHeading = previousHeading + (currentHeading - previousHeading) / smoothingValue;
+        this.setState({currentHeading: currentHeading});
+        callback(newHeading);
+=======
         this.setState({currentHeading: data.heading});
         callback(data.heading);
+>>>>>>> refs/remotes/origin/master
       }
     );
   }
@@ -328,21 +341,21 @@ class ARcomponent extends Component {
             <Image style={styles.search} source={require('../assets/search.png')}/>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menu} onPress={this.props.pressList}>
+        <TouchableHighlight style={styles.menu} onPress={this.props.pressList}>
           <View style={styles.button}>
             <Image style={styles.search} source={require('../assets/link.png')}/>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menu} onPress={this.props.pressCreate}>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.menu} onPress={this.props.pressCreate}>
           <View style={styles.button}>
             <Image style={styles.objectButton} source={require('../assets/plus.png')}/>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menu} onPress={this.props.pressProfile}>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.menu} onPress={this.props.pressProfile}>
           <View style={styles.button}>
             <Image style={styles.userimg} source={{uri: this.props.user.picture}}/>
           </View>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -361,9 +374,9 @@ class ARcomponent extends Component {
             onBridgeMessage={this.onBridgeMessage.bind(this)}
             injectedJavaScript={injectScript}
             source={{html: html, baseUrl:'web/'}}
-            style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'row', alignItems: 'flex-end'}}>
+            style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'column', alignItems: 'flex-end'}}>
             <View>{this.renderButtons()}</View>
-            <View style={{flex: 1, justifyContent: 'center', paddingLeft: 95, paddingTop: 80}}>
+            <View style={{flex: 1, justifyContent: 'center'}}>
               {this.renderCompass()}
             </View>
           {this.renderARImageModeCloseBtn()}
