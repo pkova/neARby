@@ -176,11 +176,7 @@ export const updateEventQuery = (query) => {
 
 export const imageQuery = (query) => {
   // post request
-<<<<<<< HEAD
-  fetch('https://agile-peak-45133.herokuapp.com/images', {
-=======
   let search = fetch(`${server}images`, {
->>>>>>> refs/remotes/origin/master
     method: 'POST',
     headers: {
       'Accept': 'application/json',

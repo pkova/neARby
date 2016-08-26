@@ -63,11 +63,10 @@ const styles = StyleSheet.create({
     padding: 15
   },
   heading: {
-    fontSize: 50,
+    fontSize: 40,
     fontFamily: 'AvenirNext-Medium',
     textAlign: 'center',
-    padding: 10,
-    paddingBottom: 15
+    padding: 10
   },
   image: {
     flex: 1
@@ -78,35 +77,36 @@ const styles = StyleSheet.create({
   },
   placeOrEventButton: {
     backgroundColor: '#009D9D',
-    padding: 15,
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 3,
     borderColor: '#000',
     height: 60,
-    width: 150,
+    width: 130,
     margin: 10
   },
   searchButtons: {
     backgroundColor: '#009D9D',
-    padding: 25,
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 3,
+    width: 250,
     borderColor: '#000',
     margin: 30
   },
   searchButtonText: {
     color: '#FFF',
-    fontSize: 35,
+    fontSize: 30,
     fontFamily: 'AvenirNext-Regular',
     textAlign: 'center'
   },
   text: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'AvenirNext-Regular',
     textAlign: 'center',
-    padding: 5
+    padding: 3
   },
   exit: {
     fontFamily: 'Arial',
@@ -127,14 +127,13 @@ const styles = StyleSheet.create({
   switchColumn: {
     flex: 1,
     flexDirection: 'column',
-    height: 200
+    height: 180
   },
   switchTable: {
     flex: 1,
     flexDirection: 'row',
     paddingTop: 5,
-    paddingBottom: 5,
-    height: 180
+    height: 150
   },
   textInput: {
     fontSize: 16,
@@ -153,15 +152,22 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    alignItems: 'flex-end',
+    alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 40
+    marginTop: 10
     // justifyContent: 'center'
   },
   listText: {
     fontSize: 20,
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingBottom: 5
+  },
+  createButtonText: {
+    color: '#FFF',
+    fontSize: 15,
+    fontFamily: 'AvenirNext-Regular',
+    textAlign: 'center'
   },
   icons: {
     width: 100,
@@ -207,13 +213,14 @@ const styles = StyleSheet.create({
   },
   createButton: {
     backgroundColor: '#009D9D',
-    padding: 15,
+    padding: 5,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 3,
     borderColor: '#000',
-    height: 60,
-    width: 150,
+    height: 45,
+    width: 130,
+    margin: 10
   },
   geometryButton: {
     height: 50
@@ -223,7 +230,7 @@ const styles = StyleSheet.create({
     fontFamily: 'AvenirNext-Medium',
     textAlign: 'center',
     padding: 5,
-    paddingBottom: 20
+    paddingBottom: 50
   },
 
   // for detail preview
@@ -290,16 +297,23 @@ const styles = StyleSheet.create({
     marginLeft: 4
   },
     scrollView: {
-    height: 500,
+    height: 500
   },
   scrollViewDetails: {
     height: 250,
+    textAlign: 'center'
   },
     detailsHeading: {
     fontSize: 18,
     fontFamily: 'AvenirNext-Medium',
     textAlign: 'center',
     padding: 5
+  },
+  distanceText: {
+    fontSize: 16,
+    fontFamily: 'AvenirNext-Regular',
+    textAlign: 'right',
+    paddingBottom: 5
   },
 });
 
