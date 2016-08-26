@@ -383,14 +383,11 @@ export const addEvent = (event) => {
 export const PREVIEW_PANEL_OPEN = 'PREVIEW_PANEL_OPEN';
 export const PREVIEW_PANEL_CLOSE = 'PREVIEW_PANEL_CLOSE';
 
-export const openPreview = (key) => {
-  console.log('openPreview');
+export const openPreview = (place) => {
+  console.log('openPreview', place);
   return {
     type: PREVIEW_PANEL_OPEN,
-    payload: {
-      preview: true,
-      focalPlace: key
-    }
+    payload: place
   };
 };
 
@@ -407,9 +404,19 @@ export const closePreview = () => {
 //////////////////////////////
 ////place ratings
 //////////////////////////////
+export const UPDATE_VOTE = 'UPDATE_VOTE';
+
 export const sendVote = (place) => {
-  console.log('votePlace');
-  let collection = fetch(`${redisServer}vote`, {
+  console.log('votePlace', place);
+  let endpoint;
+
+  if (place.type === 'userPlace') {
+    endpoint = 'db/votePlaces';
+  } else {
+    endpoint = 'db/voteEvents';
+  }
+
+  let updatedPlace = fetch(redisServer + endpoint, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -431,8 +438,8 @@ export const sendVote = (place) => {
   });
 
   return {
-    type: PLACES_COLLECTION,
-    payload: collection
+    type: UPDATE_VOTE,
+    payload: updatedPlace
   };
 };
 

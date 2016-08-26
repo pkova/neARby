@@ -59,7 +59,7 @@ class Main extends Component {
   renderPreview() {
     if (this.props.preview) {
       return (
-        <SmallDetailView closePanel={() => {this.props.action.closePreview();}} place={this.props.places[this.props.focalPlace]} submitVote={this.submitVote.bind(this)}/>
+        <SmallDetailView closePanel={() => {this.props.action.closePreview();}} place={this.props.focalPlace} submitVote={this.submitVote.bind(this)}/>
       );
     }
     return;

@@ -50,8 +50,8 @@ class ARcomponent extends Component {
 
     if (!nextProps.insideARImageMode && this.activateARImageMode && nextProps.ARImageMode) {
       console.log('nextProps.insideARImageMode');
-      if (Array.isArray(nextProps.places[nextProps.focalPlace].img)) {
-        this.activateARImageMode(nextProps.places[nextProps.focalPlace].img);
+      if (Array.isArray(nextProps.focalPlace.img)) {
+        this.activateARImageMode(nextProps.focalPlace.img);
       } else {
         this.activateARImageMode(nextProps.photos);
       }
@@ -262,15 +262,15 @@ class ARcomponent extends Component {
       //calibrate threejs camera according to north every 5 seconds
       this.sendOrientation(this.calibrateCameraAngle);
     } else if (message.type === 'click') {
-      if (this.props.places[message.key].type === 'userPlace' || this.props.places[message.key].type === 'userEvent') {
-        // console.log('openPreviewopenPreview');
-        this.props.action.openPreview(message.key);
+        console.log('openPreviewopenPreview', this.props.places[message.key]);
+      if (this.props.places[message.key].type && (this.props.places[message.key].type === 'userPlace' || this.props.places[message.key].type === 'userEvent')) {
+        this.props.action.openPreview(this.props.places[message.key]);
       } else {
         // console.log('imageQueryimageQuery');
         this.props.action.imageQuery(this.props.places[message.key])
         .then((results) => {
           // console.log('results', results);
-          this.props.action.openPreview(message.key);
+          this.props.action.openPreview(this.props.places[message.key]);
         });
       }
     } else {
