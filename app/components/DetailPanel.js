@@ -80,7 +80,7 @@ class PlacePanel extends Component {
       <ScrollView style={styles.scrollView}>
         <Text style={styles.detailsHeading}>{this.props.detail.name}</Text>
         <Text style={styles.detailsHeading}>{this.props.detail.address}</Text>
-        <Text style={styles.detailsHeading}>{this.props.detail.distance} Feet Away</Text>
+        <Text style={styles.distanceText}>{this.props.detail.distance} feet away</Text>
         <ScrollView horizontal={true} style={{flexDirection: 'row'}}>
           <View style={{flexDirection: 'row'}}>
             {this.props.photos.map(function(item, key) {

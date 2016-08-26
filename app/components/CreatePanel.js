@@ -63,6 +63,7 @@ class CreatePanel extends Component {
       lon: this.props.threeLon,
       distance: Math.floor(this.props.distance * 3.28084),
       username: this.props.username,
+      userid: this.props.id,
       type: 'userPlace',
       upvotes: 0,
       downvotes: 0,
@@ -94,6 +95,7 @@ class CreatePanel extends Component {
       longitude: this.props.currentPosition.longitude,
       startTime: this.props.startTime,
       username: this.props.username,
+      userid: this.props.id,
       lat: this.props.threeLat,
       lon: this.props.threeLon,
       distance: Math.floor(this.props.distance * 3.28084),
@@ -196,13 +198,13 @@ class CreatePanel extends Component {
               </View>
             </ScrollView>
 
-          <TouchableOpacity onPress={this.pickImage.bind(this)}>
-            <Text style={styles.inputLable2}>upload picture</Text>
-          </TouchableOpacity>
-          <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <TouchableOpacity style={styles.createButton} onPress={() => { this.handleSubmitPlace(); }}>
-              <Text style={styles.buttonText}>add spots</Text>
-            </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+          <TouchableHighlight style={styles.createButton} onPress={this.pickImage.bind(this)}>
+            <Text style={styles.createButtonText}>upload picture</Text>
+          </TouchableHighlight>
+            <TouchableHighlight style={styles.createButton} onPress={() => { this.handleSubmitPlace(); }}>
+              <Text style={styles.createButtonText}>add spot</Text>
+            </TouchableHighlight>
           </View>
         </View>
       );
@@ -214,7 +216,7 @@ class CreatePanel extends Component {
           <TextInput style={styles.textInput}  onChangeText={(text) => this.setState({eventName: text})} value={this.state.eventName} placeholder="event name" />
           <Text style={styles.inputLable}>Event Description</Text>
           <TextInput style={styles.textInput}  onChangeText={(text) => this.setState({eventDescription: text})} value={this.state.eventDescription} placeholder="event description" />
-          <Text style={styles.inputLable}>Event Start In: {this.state.startTime}</Text>
+          <Text style={styles.inputLable}>Event starts in: {this.state.startTime}</Text>
           <Slider
             {...this.props}
             onValueChange={(value) => {this.startTimeSlider(value)} }
@@ -304,6 +306,7 @@ const sendSpotToServer = (type, obj) => {
 const mapStateToProps = function(state) {
   return {
     username: state.user.username,
+    id: state.user.id,
     initialPosition: state.Geolocation.initialPosition,
     currentPosition: state.Geolocation.currentPosition,
     threeLat: state.Geolocation.threeLat,

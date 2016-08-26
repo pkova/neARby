@@ -4,7 +4,7 @@ const initialState = {
   username: '',
   picture: 'https://www.beautifulpeople.com/cdn/beautifulpeople/images/default_profile/signup_male.png',
   userObjects: [],
-  friends: []
+  id: ''
 };
 
 export default function(state = initialState, action) {
@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
       return { ...state,
       username: action.payload.username,
       picture: action.payload.picture,
-      friends: action.payload.friends };
+      id: action.payload.id };
     default:
       return state;
   }
