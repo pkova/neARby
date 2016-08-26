@@ -324,21 +324,21 @@ class ARcomponent extends Component {
             <Image style={styles.search} source={require('../assets/search.png')}/>
           </View>
         </TouchableOpacity>
-        <TouchableHighlight style={styles.menu} onPress={this.props.pressList}>
+        <TouchableOpacity style={styles.menu} onPress={this.props.pressList}>
           <View style={styles.button}>
             <Image style={styles.search} source={require('../assets/link.png')}/>
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.menu} onPress={this.props.pressCreate}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menu} onPress={this.props.pressCreate}>
           <View style={styles.button}>
             <Image style={styles.objectButton} source={require('../assets/plus.png')}/>
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.menu} onPress={this.props.pressProfile}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menu} onPress={this.props.pressProfile}>
           <View style={styles.button}>
             <Image style={styles.userimg} source={{uri: this.props.user.picture}}/>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -357,7 +357,7 @@ class ARcomponent extends Component {
             onBridgeMessage={this.onBridgeMessage.bind(this)}
             injectedJavaScript={injectScript}
             source={{html: html, baseUrl:'web/'}}
-            style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'row', alignItems: 'flex-end'}}>
+            style={{backgroundColor: 'transparent', flex: 1, flexDirection: 'column', alignItems: 'flex-end'}}>
             <View>{this.renderButtons()}</View>
             <View style={{flex: 1, justifyContent: 'center', paddingLeft: 95, paddingTop: 80}}>
               {this.renderCompass()}
