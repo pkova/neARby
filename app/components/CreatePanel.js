@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  TouchableHighlight,
   TouchableOpacity,
   Image,
   TextInput,
@@ -216,7 +217,7 @@ class CreatePanel extends Component {
           <TextInput style={styles.textInput}  onChangeText={(text) => this.setState({eventName: text})} value={this.state.eventName} placeholder="event name" />
           <Text style={styles.inputLable}>Event Description</Text>
           <TextInput style={styles.textInput}  onChangeText={(text) => this.setState({eventDescription: text})} value={this.state.eventDescription} placeholder="event description" />
-          <Text style={styles.inputLable}>Event starts in: {this.state.startTime}</Text>
+          <Text style={styles.inputLable}>event starts in: {this.state.startTime}</Text>
           <Slider
             {...this.props}
             onValueChange={(value) => {this.startTimeSlider(value)} }
