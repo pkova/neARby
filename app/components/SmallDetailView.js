@@ -42,7 +42,7 @@ class SmallDetailView extends Component {
   }
 
   enterARImageMode() {
-    console.log('enterARImageMode');
+    // console.log('enterARImageMode');
     this.props.action.switchARImageMode(true);
     this.props.closePanel();
   }
@@ -51,10 +51,25 @@ class SmallDetailView extends Component {
     let images;
 
     //if the place img attribute is an array it is a user place or event
-    if (Array.isArray(this.props.place.img)) {
-      images = this.props.place.img;
+    // console.log('this.props.place.img', Array.isArray(this.props.place.img));
+    if (this.props.place.type === 'userPlace' || this.props.place.type === 'userEvent') {
+      if (this.props.place.img === '') {
+        images = [];
+      } else {
+        images = this.props.place.img;
+      }
     } else {
       images = this.props.photos;
+    }
+
+    if (images.length === 0) {
+      return (
+        <ScrollView horizontal={true} style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row'}}>
+            <Image source={require('../assets/no_image_available.png')} style={styles.images}/>
+          </View>
+        </ScrollView>
+      );
     }
 
     return (
